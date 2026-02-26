@@ -8,6 +8,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
+                implementation(libs.bundles.ktor.common)
+                implementation(libs.touchlab.kermit)
 
                 implementation(projects.core.domain)
             }
@@ -15,11 +17,13 @@ kotlin {
 
         androidMain {
             dependencies {
+                implementation(libs.ktor.client.okhttp)
             }
         }
 
         iosMain {
             dependencies {
+                implementation(libs.ktor.client.darwin)
             }
         }
     }
