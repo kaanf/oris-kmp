@@ -49,65 +49,122 @@ val Typography.titleXSmall: TextStyle
         lineHeight = 18.sp
     )
 
+val Typography.bodyMediumMedium: TextStyle
+    @Composable
+    get() = bodyMedium.copy(
+        fontWeight = FontWeight.Medium
+    )
+
+val Typography.bodyMediumSemiBold: TextStyle
+    @Composable
+    get() = bodyMedium.copy(
+        fontWeight = FontWeight.SemiBold
+    )
+
+val Typography.bodyLargeMedium: TextStyle
+    @Composable
+    get() = bodyLarge.copy(
+        fontWeight = FontWeight.Medium
+    )
+
+val Typography.bodyLargeSemiBold: TextStyle
+    @Composable
+    get() = bodyLarge.copy(
+        fontWeight = FontWeight.SemiBold
+    )
+
+val Typography.title16SemiBold: TextStyle
+    @Composable
+    get() = headlineMedium.copy(
+        fontWeight = FontWeight.SemiBold
+    )
+
+val Typography.title14SemiBold: TextStyle
+    @Composable
+    get() = headlineSmall.copy(
+        fontWeight = FontWeight.SemiBold
+    )
+
+val Typography.buttonSmall: TextStyle
+    @Composable
+    get() = labelMedium
+
+val Typography.buttonLarge: TextStyle
+    @Composable
+    get() = labelLarge
+
 val Typography @Composable get() = Typography(
-    titleLarge = TextStyle(
+    displayLarge = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+        lineHeight = 40.sp
+    ),
+
+    displayMedium = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp,
         lineHeight = 36.sp
     ),
-    titleMedium = TextStyle(
+    displaySmall = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 32.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 28.sp
     ),
-    titleSmall = TextStyle(
+    headlineMedium = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    headlineSmall = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
-        lineHeight = 24.sp
+        lineHeight = 20.sp
     ),
     bodyLarge = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.Normal,
-        fontSize = 18.sp,
-        lineHeight = 26.sp
-    ),
-    bodyMedium = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp
     ),
+    bodyMedium = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp
+    ),
     bodySmall = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 20.sp
     ),
     labelMedium = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        lineHeight = 24.sp
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
+        lineHeight = 16.sp
     ),
     labelSmall = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 18.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
         fontSize = 11.sp,
         lineHeight = 14.sp
-    ),
+    )
 )

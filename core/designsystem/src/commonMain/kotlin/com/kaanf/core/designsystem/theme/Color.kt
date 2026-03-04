@@ -98,7 +98,7 @@ val Danger = Color(0xFF8EA3B3)
 val White = Color(0xFFFFFFFF)
 val White90 = Color(0xFFFFFFFF)
 
-val Divider = Color(0xFFF2F5F8)
+val Divider = Color(0xFFEAEEF2)
 val BgLight = Color(0xFFF5F7F9)
 
 val Red100 = Color(0xFFFADCD8)

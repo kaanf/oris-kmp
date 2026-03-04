@@ -8,6 +8,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+
 val LocalExtendedColors = staticCompositionLocalOf { LightExtendedColors }
 
 val ColorScheme.extended: ExtendedColors
@@ -59,6 +61,22 @@ data class ExtendedColors(
     val cakePurple: Color,
     val cakeRed: Color,
     val cakeMint: Color,
+
+    val iconPrimary: Color,
+
+    val buttonDisabledBg: Color,
+    val buttonDefaultBg: Color,
+    val buttonFocusedBg: Color,
+
+    val buttonOutline: Color,
+    val buttonFocusedOutline: Color,
+
+    val buttonPlaceholderTextColor: Color,
+    val buttonFocusedTextColor: Color,
+    val buttonDisabledTextColor: Color,
+
+    val primaryTextColor: Color,
+    val secondaryTextColor: Color
 )
 
 val LightExtendedColors = ExtendedColors(
@@ -104,6 +122,22 @@ val LightExtendedColors = ExtendedColors(
     cakePurple = ChirpCakeLightPurple,
     cakeRed = ChirpCakeLightRed,
     cakeMint = ChirpCakeLightMint,
+
+    iconPrimary = Neutral900,
+
+    buttonOutline = Divider,
+    buttonFocusedOutline = Primary400,
+
+    buttonPlaceholderTextColor = Neutral300,
+    buttonFocusedTextColor = Neutral900,
+    buttonDisabledTextColor = Neutral300,
+
+    buttonDisabledBg = Neutral200,
+    buttonDefaultBg = Transparent,
+    buttonFocusedBg = Primary50,
+
+    primaryTextColor = Neutral900,
+    secondaryTextColor = Neutral300
 )
 
 val DarkExtendedColors = ExtendedColors(
@@ -139,6 +173,8 @@ val DarkExtendedColors = ExtendedColors(
     accentLightBlue = ChirpLightBlue,
     accentGrey = ChirpGrey,
 
+    iconPrimary = White,
+
     cakeViolet = ChirpCakeDarkViolet,
     cakeGreen = ChirpCakeDarkGreen,
     cakeBlue = ChirpCakeDarkBlue,
@@ -149,6 +185,20 @@ val DarkExtendedColors = ExtendedColors(
     cakePurple = ChirpCakeDarkPurple,
     cakeRed = ChirpCakeDarkRed,
     cakeMint = ChirpCakeDarkMint,
+
+    buttonOutline = Neutral300,
+    buttonFocusedOutline = Primary400,
+
+    buttonPlaceholderTextColor = Neutral200,
+    buttonFocusedTextColor = White,
+    buttonDisabledTextColor = Neutral200,
+
+    buttonDisabledBg = Neutral200,
+    buttonDefaultBg = Transparent,
+    buttonFocusedBg = Neutral800,
+
+    primaryTextColor = White,
+    secondaryTextColor = Neutral200
 )
 
 val LightColorScheme = lightColorScheme(
@@ -172,14 +222,14 @@ val LightColorScheme = lightColorScheme(
     errorContainer = ChirpRed200,
     onErrorContainer = ChirpRed600,
 
-    background = ChirpBrand1000,
+    background = White,
     onBackground = ChirpBase0,
     surface = ChirpBase0,
     onSurface = ChirpBase1000,
     surfaceVariant = ChirpBase100,
     onSurfaceVariant = ChirpBase900,
 
-    outline = ChirpBase1000Alpha8,
+    outline = Divider,
     outlineVariant = ChirpBase200,
 )
 
@@ -204,13 +254,13 @@ val DarkColorScheme = darkColorScheme(
     errorContainer = ChirpRed600,
     onErrorContainer = ChirpRed200,
 
-    background = ChirpBase1000,
+    background = Neutral900,
     onBackground = ChirpBase0,
     surface = ChirpBase950,
     onSurface = ChirpBase0,
     surfaceVariant = ChirpBase900,
     onSurfaceVariant = ChirpBase150,
 
-    outline = ChirpBase100Alpha10,
+    outline = Divider,
     outlineVariant = ChirpBase800,
 )
