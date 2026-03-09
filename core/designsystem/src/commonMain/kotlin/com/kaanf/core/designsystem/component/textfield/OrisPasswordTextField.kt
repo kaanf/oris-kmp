@@ -110,7 +110,7 @@ fun OrisPasswordTextField(
                         },
                         tint = MaterialTheme.colorScheme.extended.textPlaceholder,
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(16.dp)
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = ripple(
@@ -130,7 +130,7 @@ fun OrisPasswordTextField(
 @Preview(
     showBackground = true
 )
-fun ChirpPasswordTextFieldFilledPreview() {
+fun OrisPasswordTextFieldFilledPreview() {
     OrisTheme {
         OrisPasswordTextField(
             state = rememberTextFieldState("password123"),
@@ -149,7 +149,7 @@ fun ChirpPasswordTextFieldFilledPreview() {
 @Preview(
     showBackground = true
 )
-fun ChirpPasswordTextFieldErrorPreview() {
+fun OrisPasswordTextFieldErrorPreview() {
     OrisTheme {
         OrisPasswordTextField(
             state = rememberTextFieldState("password123"),

@@ -3,7 +3,9 @@ package com.kaanf.auth.presentation.register
 import androidx.compose.foundation.text.input.TextFieldState
 import com.kaanf.core.presentation.util.UIText
 
-enum class RegisterStep { Username, Email, Password }
+enum class RegisterStep { Username, Email, Password, Verification }
+
+enum class InputField { Username, Email, Password }
 
 data class RegisterState(
     val step: RegisterStep = RegisterStep.Username,
@@ -14,7 +16,7 @@ data class RegisterState(
     val isPasswordValid: Boolean = false,
     val passwordError: UIText? = null,
     val usernameTextState: TextFieldState = TextFieldState(),
-    val isUsernameValid: Boolean = false,
+    val isUsernameValid: Boolean = true,
     val usernameError: UIText? = null,
     val registrationError: UIText? = null,
     val isRegistering: Boolean = false,
@@ -26,6 +28,7 @@ data class RegisterState(
             RegisterStep.Username -> true
             RegisterStep.Email -> true
             RegisterStep.Password -> true
+            RegisterStep.Verification -> false
         }
 
     val isLastStep: Boolean get() = step == RegisterStep.Password

@@ -17,7 +17,7 @@ fun OrisAdaptiveFormLayoutPreview() {
             headerText = "What’s your name?",
             descriptionText = "Write your name. You can change it back in settings.",
             onBack = {},
-            formContent = {
+            content = {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",

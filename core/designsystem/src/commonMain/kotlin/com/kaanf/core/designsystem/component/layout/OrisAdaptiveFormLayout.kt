@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -39,7 +38,7 @@ fun OrisAdaptiveFormLayout(
     descriptionText: String,
     onBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
-    formContent: @Composable ColumnScope.() -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
     bottomBar: @Composable () -> Unit = {}
 ) {
     val configuration = currentDeviceConfiguration()
@@ -56,9 +55,7 @@ fun OrisAdaptiveFormLayout(
                     )
                 },
                 content = {
-                    Spacer(Modifier.height(24.dp))
-
-                    formContent()
+                    content()
                 },
                 bottomBar = {
                     bottomBar()
@@ -73,7 +70,6 @@ fun OrisAdaptiveFormLayout(
                     .fillMaxSize()
                     .consumeWindowInsets(WindowInsets.displayCutout)
                     .consumeWindowInsets(WindowInsets.navigationBars)
-                    .padding(horizontal = 12.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -90,7 +86,7 @@ fun OrisAdaptiveFormLayout(
                     modifier = Modifier
                         .weight(1f),
                     content = {
-                        formContent()
+                        content()
                     },
                     bottomBar = {
                         bottomBar()
@@ -101,7 +97,6 @@ fun OrisAdaptiveFormLayout(
 
         else -> Unit
     }
-
 }
 
 @Composable
@@ -111,7 +106,8 @@ fun AuthHeaderSection(
     onBack: (() -> Unit)? = null
 ) {
     Box(
-        contentAlignment = Alignment.Center
+        modifier = Modifier.size(48.dp),
+        contentAlignment = Alignment.CenterStart
     ) {
         if (onBack != null) {
             OrisIconButton(onClick = onBack) {
@@ -122,6 +118,8 @@ fun AuthHeaderSection(
             }
         }
     }
+
+    Spacer(Modifier.height(12.dp))
 
     Text(
         text = headerText,
@@ -146,7 +144,7 @@ fun OrisAdaptiveFormLayoutPreview() {
             headerText = "What’s your name?",
             descriptionText = "Write your name. You can change it back in settings.",
             onBack = null,
-            formContent = {
+            content = {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",
@@ -165,7 +163,7 @@ fun OrisAdaptiveFormLayoutLightPreview() {
             headerText = "What’s your name?",
             descriptionText = "Write your name. You can change it back in settings.",
             onBack = null,
-            formContent = {
+            content = {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",

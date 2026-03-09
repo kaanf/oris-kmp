@@ -3,12 +3,22 @@
     <string name="username">Username</string>
     <string name="username_placeholder">@oris</string>
     <string name="select_a_username">Select a username</string>
+    <string name="select_a_username_description">Choose a unique username that people will use to find and recognize you on Oris.</string>
     <string name="write_your_password">Password</string>
+    <string name="write_your_password_description">Create a strong password to protect your account.</string>
+    <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="write_your_email">What is your email?</string>
+    <string name="write_your_email_description">Use an active email address to verify your account and recover access when needed.</string>
     <string name="register">Register</string>
     <string name="email_placeholder">hello@chirp.com</string>
+    <string name="email_hint">Use a valid email address.</string>
     <string name="login">Log In</string>
+    <string name="next">Next</string>
     <string name="username_hint">Use between 3 and 20 characters for your username</string>
     <string name="password_hint">Use 9+ characters, at least one digit and one uppercase letter</string>
     <string name="error_account_exists">An account with that email or username already exists</string>
+    <string name="error_invalid_password">Password must be at least 9 characters and include one digit and one uppercase letter</string>
+    <string name="error_invalid_email">This is not a valid email</string>
+    <string name="error_invalid_username">The username must be between 3 and 20 characters</string>
 </resources>
