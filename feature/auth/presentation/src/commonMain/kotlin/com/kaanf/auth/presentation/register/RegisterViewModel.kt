@@ -2,25 +2,38 @@ package com.kaanf.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaanf.core.domain.validation.PasswordValidator
+import com.kaanf.core.domain.auth.AuthService
+import com.kaanf.core.domain.util.DataError
+import com.kaanf.core.domain.util.onFailure
+import com.kaanf.core.domain.util.onSuccess
 import com.kaanf.core.presentation.util.UIText
-import com.kaanf.domain.EmailValidator
+import com.kaanf.core.presentation.util.toUiText
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import oris.feature.auth.presentation.generated.resources.Res
+import oris.feature.auth.presentation.generated.resources.error_account_exists
 import oris.feature.auth.presentation.generated.resources.error_invalid_email
 import oris.feature.auth.presentation.generated.resources.error_invalid_password
 import oris.feature.auth.presentation.generated.resources.error_invalid_username
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(
+    private val authService: AuthService
+) : ViewModel() {
     private var hasLoadedInitialData = false
+
+    private val eventChannel = Channel<RegisterEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     private val _state = MutableStateFlow(RegisterState())
     val state = _state
         .onStart {
+            /* Don't analyze this field. */
             if (!hasLoadedInitialData) {
                 hasLoadedInitialData = true
             }
@@ -33,129 +46,78 @@ class RegisterViewModel : ViewModel() {
 
     fun onAction(action: RegisterAction) {
         when (action) {
-            RegisterAction.OnNextClick,
-            RegisterAction.OnRegisterClick -> goNext()
+            RegisterAction.OnNextClick -> goNext()
+            RegisterAction.OnRegisterClick -> submitRegistration()
             RegisterAction.OnBackClick -> goBack()
-            RegisterAction.OnTogglePasswordVisibilityClick -> togglePasswordVisibility()
-            else -> {}
+
+            RegisterAction.OnTogglePasswordVisibilityClick -> {
+                _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+            }
+
+            else -> {
+                /* Don't analyze this field. */
+            }
         }
     }
 
-    private fun clearAllTextFieldErrors() {
+    private fun submitRegistration() {
+        if (_state.value.step != RegisterStep.Password) return
+        if (_state.value.isRegistering) return
+        if (!_state.value.isPasswordValid) return
+
+        register()
+    }
+
+    private fun register() = viewModelScope.launch {
         _state.update {
             it.copy(
-                emailError = null,
-                usernameError = null,
-                passwordError = null,
+                isRegistering = true,
                 registrationError = null
             )
         }
-    }
 
-    private fun clearEmailFieldError() {
-        _state.update {
-            it.copy(
-                emailError = null,
-                registrationError = null
+        val email = state.value.emailTextState.text.toString()
+        val username = state.value.usernameTextState.text.toString()
+        val password = state.value.passwordTextState.text.toString()
+
+        authService
+            .register(
+                email = email,
+                username = username,
+                password = password
             )
-        }
-    }
+            .onSuccess {
+                _state.update {
+                    it.copy(
+                        isRegistering = false,
+                        step = RegisterStep.Verification
+                    )
+                }
+            }
+            .onFailure { error ->
+                val registrationError = when (error) {
+                    DataError.Remote.CONFLICT -> UIText.Resource(Res.string.error_account_exists)
+                    else -> error.toUiText()
+                }
 
-    private fun clearPasswordFieldError() {
-        _state.update {
-            it.copy(
-                passwordError = null,
-                registrationError = null
-            )
-        }
-    }
-
-    private fun clearUsernameFieldError() {
-        _state.update {
-            it.copy(
-                usernameError = null,
-                registrationError = null
-            )
-        }
-    }
-
-    private fun isEmailValid(): Boolean {
-        clearEmailFieldError()
-
-        val currentState = state.value
-
-        val email = currentState.emailTextState.text.toString()
-        val isEmailValid = EmailValidator.validate(email)
-
-        val emailError = if (!isEmailValid) {
-            UIText.Resource(Res.string.error_invalid_email)
-        } else null
-
-        _state.update {
-            it.copy(
-                emailError = emailError,
-                isEmailValid = isEmailValid
-            )
-        }
-
-        return isEmailValid
-    }
-
-    private fun isPasswordValid(): Boolean {
-        clearPasswordFieldError()
-
-        val currentState = state.value
-
-        val password = currentState.passwordTextState.text.toString()
-        val passwordValidationState = PasswordValidator.validate(password)
-
-        val passwordError = if (!passwordValidationState.isValidPassword) {
-            UIText.Resource(Res.string.error_invalid_password)
-        } else null
-
-        _state.update {
-            it.copy(
-                passwordError = passwordError,
-                isPasswordValid = passwordValidationState.isValidPassword
-            )
-        }
-
-        return passwordValidationState.isValidPassword
-    }
-
-    private fun isUsernameValid(): Boolean {
-        clearUsernameFieldError()
-
-        val currentState = state.value
-
-        val username = currentState.usernameTextState.text.toString()
-        val isUsernameValid = username.length in 3..20
-
-        val usernameError = if (!isUsernameValid) {
-            UIText.Resource(Res.string.error_invalid_username)
-        } else null
-
-        _state.update {
-            it.copy(
-                usernameError = usernameError,
-                isUsernameValid = isUsernameValid
-            )
-        }
-
-        return isUsernameValid
+                _state.update {
+                    it.copy(
+                        isRegistering = false,
+                        registrationError = registrationError
+                    )
+                }
+            }
     }
 
     private fun goNext() {
         val s = _state.value
-        val isCurrentStepValid = when (s.step) {
-            RegisterStep.Username -> isUsernameValid()
-            RegisterStep.Email -> isEmailValid()
-            RegisterStep.Password -> isPasswordValid()
+        val isValid = when (s.step) {
+            RegisterStep.Username -> s.isUsernameValid
+            RegisterStep.Email -> s.isEmailValid
+            RegisterStep.Password -> s.isPasswordValid
             RegisterStep.Verification -> false
         }
 
-        if (!isCurrentStepValid) return
-
         val next = when (s.step) {
             RegisterStep.Username -> RegisterStep.Email
             RegisterStep.Email -> RegisterStep.Password
@@ -163,24 +125,20 @@ class RegisterViewModel : ViewModel() {
             RegisterStep.Verification -> RegisterStep.Verification
         }
 
-        _state.update { it.copy(step = next) }
-    }
-
-    /*
-    private fun goNext() {
-        val s = _state.value
-        if (!s.canGoNext) return
-
-        val next = when (s.step) {
-            RegisterStep.Username -> RegisterStep.Email
-            RegisterStep.Email -> RegisterStep.Password
-            RegisterStep.Password -> RegisterStep.Verification
-            RegisterStep.Verification -> RegisterStep.Verification
+        _state.update {
+            it.copy(
+                usernameError = if (s.step == RegisterStep.Username && !isValid)
+                    UIText.Resource(Res.string.error_invalid_username) else null,
+                emailError = if (s.step == RegisterStep.Email && !isValid)
+                    UIText.Resource(Res.string.error_invalid_email) else null,
+                passwordError = if (s.step == RegisterStep.Password && !isValid)
+                    UIText.Resource(Res.string.error_invalid_password) else null,
+                registrationError = null,
+                step = if (isValid) next else s.step
+            )
         }
-
-        _state.update { it.copy(step = next) }
     }
-     */
+
     private fun goBack() {
         val s = _state.value
         val prev = when (s.step) {
@@ -190,9 +148,5 @@ class RegisterViewModel : ViewModel() {
             RegisterStep.Verification -> RegisterStep.Password
         }
         _state.update { it.copy(step = prev) }
-    }
-
-    private fun togglePasswordVisibility() {
-        _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
     }
 }

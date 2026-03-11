@@ -1,5 +1,7 @@
 package com.kaanf.core.designsystem.component.button
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,12 +14,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kaanf.core.designsystem.theme.OrisTheme
+import com.kaanf.core.designsystem.theme.SquircleCornerShape
 import com.kaanf.core.designsystem.theme.extended
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -36,20 +39,46 @@ fun OrisButton(
     isLoading: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null
 ) {
-    val colors = when(style) {
-        OrisButtonStyle.PRIMARY -> ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
-            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
-        OrisButtonStyle.SECONDARY -> ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
-            contentColor = MaterialTheme.colorScheme.primary,
-            disabledContainerColor = MaterialTheme.colorScheme.extended.disabledFill,
-            disabledContentColor = MaterialTheme.colorScheme.extended.textDisabled
-        )
+    val targetContainerColor = when(style) {
+        OrisButtonStyle.PRIMARY -> if (enabled) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.extended.disabledFill
+        }
+        OrisButtonStyle.SECONDARY -> if (enabled) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.extended.disabledFill
+        }
     }
+    val targetContentColor = when(style) {
+        OrisButtonStyle.PRIMARY -> if (enabled) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.extended.textDisabled
+        }
+        OrisButtonStyle.SECONDARY -> if (enabled) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.extended.textDisabled
+        }
+    }
+    val animatedContainerColor by animateColorAsState(
+        targetValue = targetContainerColor,
+        animationSpec = tween(durationMillis = 200),
+        label = "oris_button_container_color"
+    )
+    val animatedContentColor by animateColorAsState(
+        targetValue = targetContentColor,
+        animationSpec = tween(durationMillis = 200),
+        label = "oris_button_content_color"
+    )
+    val colors = ButtonDefaults.buttonColors(
+        containerColor = animatedContainerColor,
+        contentColor = animatedContentColor,
+        disabledContainerColor = animatedContainerColor,
+        disabledContentColor = animatedContentColor
+    )
 
     /*
     val defaultBorderStroke = BorderStroke(
@@ -68,7 +97,7 @@ fun OrisButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        shape = RoundedCornerShape(12.dp),
+        shape = SquircleCornerShape(12.dp),
         colors = colors,
         border = null
     ) {
@@ -83,7 +112,7 @@ fun OrisButton(
                         alpha = if(isLoading) 1f else 0f
                     ),
                 strokeWidth = 1.5.dp,
-                color = Color.Black
+                color = animatedContentColor
             )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(

@@ -131,6 +131,8 @@ fun AuthHeaderSection(
 
     Text(
         text = descriptionText,
+        maxLines = 2,
+        minLines = 2,
         color = MaterialTheme.colorScheme.extended.secondaryTextColor,
         style = MaterialTheme.typography.bodyMedium
     )

@@ -10,9 +10,9 @@ kotlin {
 
                 implementation(projects.core.presentation)
 
-                /*
                 implementation(libs.squircle.shape)
 
+                /*
                 implementation(libs.compottie)
                 implementation(libs.compottieDot)
                 implementation(libs.compottieResources)

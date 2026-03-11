@@ -12,6 +12,8 @@ kotlin {
                 implementation(libs.touchlab.kermit)
 
                 implementation(projects.core.domain)
+
+                implementation(libs.koin.core)
             }
         }
 

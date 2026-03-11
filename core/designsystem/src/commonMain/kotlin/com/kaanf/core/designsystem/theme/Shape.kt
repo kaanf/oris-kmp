@@ -1,10 +1,8 @@
 package com.kaanf.core.designsystem.theme
 
-import androidx.compose.material3.Shapes
-import androidx.compose.ui.unit.dp
-/*
-val squircleShapes = Shapes(
-    small = SquircleShape(radius = 16.dp, smoothing = CornerSmoothing.Medium),
-)
- */
+import androidx.compose.ui.unit.Dp
+import sv.lib.squircleshape.CornerSmoothing
+import sv.lib.squircleshape.SquircleShape
 
+@Suppress("FunctionName")
+fun SquircleCornerShape(size: Dp) = SquircleShape(radius = size, smoothing = CornerSmoothing.Medium)

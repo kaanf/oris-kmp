@@ -47,7 +47,6 @@ fun OrisPasswordTextField(
     enabled: Boolean = true,
     onFocusChanged: (Boolean) -> Unit = {}
 ) {
-
     OrisTextFieldLayout(
         title = title,
         isError = isError,

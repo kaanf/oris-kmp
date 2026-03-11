@@ -1,6 +1,7 @@
 package com.kaanf.auth.presentation.register
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.input.KeyboardType
 import com.kaanf.core.designsystem.component.textfield.OrisTextField
 import com.kaanf.core.designsystem.theme.OrisTheme
 import org.jetbrains.compose.resources.stringResource
@@ -21,6 +22,7 @@ fun RegisterEmailContent(
         title = stringResource(Res.string.email),
         supportingText = state.emailError?.asString()
             ?: stringResource(Res.string.email_hint),
+        keyboardType = KeyboardType.Email,
         isError = state.emailError != null,
         onFocusChanged = { onAction(RegisterAction.OnInputTextFocusGain) }
     )

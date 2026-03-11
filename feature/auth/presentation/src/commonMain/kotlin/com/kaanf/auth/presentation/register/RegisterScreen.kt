@@ -18,7 +18,9 @@ import com.kaanf.core.designsystem.component.icon.OrisGlowIcon
 import com.kaanf.core.designsystem.component.layout.OrisSimpleSuccessLayout
 import com.kaanf.core.designsystem.component.layout.OrisSnackbarScaffold
 import com.kaanf.core.designsystem.theme.Primary400
+import com.kaanf.core.presentation.util.ObserveAsEvents
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import oris.feature.auth.presentation.generated.resources.Res
 import oris.feature.auth.presentation.generated.resources.next
 import oris.feature.auth.presentation.generated.resources.register
@@ -30,16 +32,27 @@ import oris.feature.auth.presentation.generated.resources.write_your_password
 import oris.feature.auth.presentation.generated.resources.write_your_password_description
 
 @Composable
-fun RegisterRoot(viewModel: RegisterViewModel = viewModel()) {
+fun RegisterRoot(
+    viewModel: RegisterViewModel = koinViewModel(),
+    onRegisterSuccess: (String) -> Unit,
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            is RegisterEvent.Success -> {
+                onRegisterSuccess(event.email)
+            }
+        }
+    }
 
     OrisSnackbarScaffold(snackbarHostState) { innerPadding ->
         RegisterScreen(
             state = state,
             modifier = Modifier
-                .padding(innerPadding)
+                .padding( innerPadding)
                 .consumeWindowInsets(innerPadding),
             onAction = viewModel::onAction,
         )
@@ -76,23 +89,30 @@ fun RegisterScreen(
             )
         },
         bottomBar = {
-            OrisButton(
-                text = if (state.step == RegisterStep.Password) {
-                    stringResource(Res.string.register)
-                } else {
-                    stringResource(Res.string.next)
-                },
-                onClick = {
-                    if (state.step == RegisterStep.Password) {
-                        onAction(RegisterAction.OnRegisterClick)
+            if (state.step != RegisterStep.Verification) {
+                OrisButton(
+                    text = if (state.step == RegisterStep.Password) {
+                        stringResource(Res.string.register)
                     } else {
-                        onAction(RegisterAction.OnNextClick)
-                    }
-                },
-                enabled = state.canGoNext,
-                isLoading = state.step == RegisterStep.Password && state.isRegistering,
-                modifier = Modifier.fillMaxWidth()
-            )
+                        stringResource(Res.string.next)
+                    },
+                    onClick = {
+                        if (state.step == RegisterStep.Password) {
+                            onAction(RegisterAction.OnRegisterClick)
+                        } else {
+                            onAction(RegisterAction.OnNextClick)
+                        }
+                    },
+                    enabled = when (state.step) {
+                        RegisterStep.Username -> state.isUsernameValid
+                        RegisterStep.Email -> state.isEmailValid
+                        RegisterStep.Password -> state.isPasswordValid
+                        RegisterStep.Verification -> false
+                    },
+                    isLoading = state.step == RegisterStep.Password && state.isRegistering,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     )
 }
