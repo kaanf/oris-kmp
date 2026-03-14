@@ -3,16 +3,24 @@ plugins {
 }
 
 kotlin {
-    // Source set declarations.
-    // Declaring a target automatically creates a source set with the same name. By default, the
-    // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
-    // common to share sources between related targets.
-    // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                // Add KMP dependencies here
+
+                implementation(projects.core.presentation)
+
+                implementation(libs.squircle.shape)
+
+                /*
+                implementation(libs.compottie)
+                implementation(libs.compottieDot)
+                implementation(libs.compottieResources)
+
+                 */
+
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
             }
         }
 

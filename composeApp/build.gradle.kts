@@ -8,6 +8,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(projects.feature.chat.data)
@@ -22,6 +24,8 @@ kotlin {
 
             implementation(projects.feature.auth.domain)
             implementation(projects.feature.auth.presentation)
+
+            implementation(libs.jetbrains.compose.navigation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
