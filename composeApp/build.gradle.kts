@@ -25,6 +25,8 @@ kotlin {
             implementation(projects.feature.auth.domain)
             implementation(projects.feature.auth.presentation)
 
+            implementation(libs.jetbrains.compose.navigation)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
