@@ -20,45 +20,48 @@ import com.kaanf.core.designsystem.theme.OrisTheme
 import com.kaanf.core.designsystem.theme.Primary400
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-
 @Composable
 fun OrisGlowIcon(
     icon: ImageVector,
     themeColor: Color,
     modifier: Modifier = Modifier,
-    iconTintColor: Color = Color.White
+    iconTintColor: Color = Color.White,
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.size(180.dp)
+        modifier = modifier.size(180.dp),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            themeColor.copy(alpha = 0.60f),
-                            Color.Transparent
-                        ),
-                        radius = 250f
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush =
+                            Brush.radialGradient(
+                                colors =
+                                    listOf(
+                                        themeColor.copy(alpha = 0.60f),
+                                        Color.Transparent,
+                                    ),
+                                radius = 250f,
+                            ),
+                        shape = CircleShape,
                     ),
-                    shape = CircleShape
-                )
         )
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(96.dp)
-                .clip(CircleShape)
-                .background(themeColor)
+            modifier =
+                Modifier
+                    .size(96.dp)
+                    .clip(CircleShape)
+                    .background(themeColor),
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = iconTintColor,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp),
             )
         }
     }

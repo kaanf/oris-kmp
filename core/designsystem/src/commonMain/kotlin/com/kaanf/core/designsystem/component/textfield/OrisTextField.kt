@@ -39,56 +39,63 @@ fun OrisTextField(
         supportingText = supportingText,
         enabled = enabled,
         onFocusChanged = onFocusChanged,
-        modifier = modifier
+        modifier = modifier,
     ) { styleModifier, interactionSource ->
         BasicTextField(
             state = state,
             enabled = enabled,
-            lineLimits = if(singleLine) {
-                TextFieldLineLimits.SingleLine
-            } else TextFieldLineLimits.Default,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = if(enabled) {
-                    MaterialTheme.colorScheme.extended.buttonFocusedTextColor
+            lineLimits =
+                if (singleLine) {
+                    TextFieldLineLimits.SingleLine
                 } else {
-                    MaterialTheme.colorScheme.extended.buttonPlaceholderTextColor
-                }
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType
-            ),
+                    TextFieldLineLimits.Default
+                },
+            textStyle =
+                MaterialTheme.typography.bodyMedium.copy(
+                    color =
+                        if (enabled) {
+                            MaterialTheme.colorScheme.extended.buttonFocusedTextColor
+                        } else {
+                            MaterialTheme.colorScheme.extended.buttonPlaceholderTextColor
+                        },
+                ),
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = keyboardType,
+                ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
             interactionSource = interactionSource,
             modifier = styleModifier,
             decorator = { innerBox ->
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.CenterStart
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart,
                 ) {
-                    if(state.text.isEmpty() && placeholder != null) {
+                    if (state.text.isEmpty() && placeholder != null) {
                         Text(
                             text = placeholder,
                             color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                     innerBox()
                 }
-            }
+            },
         )
     }
 }
 
 @Composable
-@Preview(
-)
+@Preview()
 fun OrisTextFieldEmptyPreview() {
     OrisTheme {
         OrisTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "test@test.com",
             title = "Email",
         )
@@ -97,16 +104,18 @@ fun OrisTextFieldEmptyPreview() {
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun OrisTextFieldFilledPreview() {
     OrisTheme {
         OrisTextField(
-            state = rememberTextFieldState(
-                initialText = "test@test.com"
-            ),
-            modifier = Modifier
-                .width(300.dp),
+            state =
+                rememberTextFieldState(
+                    initialText = "test@test.com",
+                ),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "test@test.com",
             title = "Email",
         )
@@ -115,31 +124,33 @@ fun OrisTextFieldFilledPreview() {
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun OrisTextFieldDisabledPreview() {
     OrisTheme {
         OrisTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "test@test.com",
             title = "Email",
-            enabled = false
+            enabled = false,
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun OrisTextFieldErrorPreview() {
     OrisTheme {
         OrisTextField(
             state = rememberTextFieldState(),
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "test@test.com",
             title = "Email",
             isError = true,

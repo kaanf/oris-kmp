@@ -22,18 +22,18 @@ import platform.Foundation.NSURLErrorTimedOut
 
 actual suspend fun <T> platformSafeCall(
     execute: suspend () -> HttpResponse,
-    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>
+    handleResponse: suspend (HttpResponse) -> Result<T, DataError.Remote>,
 ): Result<T, DataError.Remote> {
     return try {
         val response = execute()
         handleResponse(response)
-    } catch(e: DarwinHttpRequestException) {
+    } catch (e: DarwinHttpRequestException) {
         handleDarwinException(e)
-    } catch(e: UnresolvedAddressException) {
+    } catch (e: UnresolvedAddressException) {
         Result.Failure(DataError.Remote.NO_INTERNET)
-    } catch(e: HttpRequestTimeoutException) {
+    } catch (e: HttpRequestTimeoutException) {
         Result.Failure(DataError.Remote.REQUEST_TIMEOUT)
-    } catch(e: SerializationException) {
+    } catch (e: SerializationException) {
         Result.Failure(DataError.Remote.SERIALIZATION)
     } catch (e: Exception) {
         currentCoroutineContext().ensureActive()
@@ -44,8 +44,8 @@ actual suspend fun <T> platformSafeCall(
 private fun handleDarwinException(e: DarwinHttpRequestException): Result<Nothing, DataError.Remote> {
     val nsError = e.origin
 
-    return if(nsError.domain == NSURLErrorDomain) {
-        when(nsError.code) {
+    return if (nsError.domain == NSURLErrorDomain) {
+        when (nsError.code) {
             NSURLErrorNotConnectedToInternet,
             NSURLErrorNetworkConnectionLost,
             NSURLErrorCannotFindHost,
@@ -53,12 +53,15 @@ private fun handleDarwinException(e: DarwinHttpRequestException): Result<Nothing
             NSURLErrorResourceUnavailable,
             NSURLErrorInternationalRoamingOff,
             NSURLErrorCallIsActive,
-            NSURLErrorDataNotAllowed -> {
+            NSURLErrorDataNotAllowed,
+            -> {
                 Result.Failure(DataError.Remote.NO_INTERNET)
             }
 
             NSURLErrorTimedOut -> Result.Failure(DataError.Remote.REQUEST_TIMEOUT)
             else -> Result.Failure(DataError.Remote.UNKNOWN)
         }
-    } else Result.Failure(DataError.Remote.UNKNOWN)
+    } else {
+        Result.Failure(DataError.Remote.UNKNOWN)
+    }
 }

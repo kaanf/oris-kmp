@@ -12,16 +12,21 @@ import com.kaanf.core.domain.util.Result
 import io.ktor.client.HttpClient
 
 class KtorAuthService(
-    private val httpClient: HttpClient
-): AuthService {
+    private val httpClient: HttpClient,
+) : AuthService {
     override suspend fun register(
-        email: String, username: String, password: String
+        email: String,
+        username: String,
+        password: String,
     ): EmptyResult<DataError.Remote> {
         return httpClient.post(
             route = "/auth/register",
-            body = RegisterRequest(
-                email = email, username = username, password = password
-            )
+            body =
+                RegisterRequest(
+                    email = email,
+                    username = username,
+                    password = password,
+                ),
         )
     }
 
@@ -35,7 +40,7 @@ class KtorAuthService(
     override suspend fun isUsernameExists(username: String): Result<Boolean, DataError.Remote> {
         return httpClient.post(
             route = "/auth/username-exists",
-            body = UsernameRequest(username)
+            body = UsernameRequest(username),
         )
     }
 
@@ -49,7 +54,7 @@ class KtorAuthService(
     override suspend fun verifyEmail(token: String): EmptyResult<DataError.Remote> {
         return httpClient.get(
             route = "/auth/verify",
-            queryParams = mapOf("token" to token)
+            queryParams = mapOf("token" to token),
         )
     }
 }

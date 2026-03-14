@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
@@ -39,7 +38,7 @@ fun OrisAdaptiveFormLayout(
     onBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
-    bottomBar: @Composable () -> Unit = {}
+    bottomBar: @Composable () -> Unit = {},
 ) {
     val configuration = currentDeviceConfiguration()
 
@@ -59,22 +58,24 @@ fun OrisAdaptiveFormLayout(
                 },
                 bottomBar = {
                     bottomBar()
-                }
+                },
             )
         }
 
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = modifier
-                    .fillMaxSize()
-                    .consumeWindowInsets(WindowInsets.displayCutout)
-                    .consumeWindowInsets(WindowInsets.navigationBars)
+                modifier =
+                    modifier
+                        .fillMaxSize()
+                        .consumeWindowInsets(WindowInsets.displayCutout)
+                        .consumeWindowInsets(WindowInsets.navigationBars),
             ) {
                 Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                    modifier =
+                        Modifier
+                            .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
                     AuthHeaderSection(
                         headerText = headerText,
@@ -83,14 +84,15 @@ fun OrisAdaptiveFormLayout(
                 }
 
                 OrisSurface(
-                    modifier = Modifier
-                        .weight(1f),
+                    modifier =
+                        Modifier
+                            .weight(1f),
                     content = {
                         content()
                     },
                     bottomBar = {
                         bottomBar()
-                    }
+                    },
                 )
             }
         }
@@ -103,17 +105,17 @@ fun OrisAdaptiveFormLayout(
 fun AuthHeaderSection(
     headerText: String,
     descriptionText: String,
-    onBack: (() -> Unit)? = null
+    onBack: (() -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier.size(48.dp),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = Alignment.CenterStart,
     ) {
         if (onBack != null) {
             OrisIconButton(onClick = onBack) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
+                    contentDescription = "Back",
                 )
             }
         }
@@ -124,7 +126,7 @@ fun AuthHeaderSection(
     Text(
         text = headerText,
         color = MaterialTheme.colorScheme.extended.primaryTextColor,
-        style = MaterialTheme.typography.displaySmall
+        style = MaterialTheme.typography.displaySmall,
     )
 
     Spacer(Modifier.height(8.dp))
@@ -134,7 +136,7 @@ fun AuthHeaderSection(
         maxLines = 2,
         minLines = 2,
         color = MaterialTheme.colorScheme.extended.secondaryTextColor,
-        style = MaterialTheme.typography.bodyMedium
+        style = MaterialTheme.typography.bodyMedium,
     )
 }
 
@@ -150,9 +152,9 @@ fun OrisAdaptiveFormLayoutPreview() {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",
-                    title = "Email"
+                    title = "Email",
                 )
-            }
+            },
         )
     }
 }
@@ -169,9 +171,9 @@ fun OrisAdaptiveFormLayoutLightPreview() {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",
-                    title = "Email"
+                    title = "Email",
                 )
-            }
+            },
         )
     }
 }

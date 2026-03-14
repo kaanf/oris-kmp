@@ -45,7 +45,7 @@ fun OrisPasswordTextField(
     supportingText: String? = null,
     isError: Boolean = false,
     enabled: Boolean = true,
-    onFocusChanged: (Boolean) -> Unit = {}
+    onFocusChanged: (Boolean) -> Unit = {},
 ) {
     OrisTextFieldLayout(
         title = title,
@@ -53,81 +53,92 @@ fun OrisPasswordTextField(
         supportingText = supportingText,
         enabled = enabled,
         onFocusChanged = onFocusChanged,
-        modifier = modifier
+        modifier = modifier,
     ) { styleModifier, interactionSource ->
         BasicSecureTextField(
             state = state,
             modifier = styleModifier,
             enabled = enabled,
-            textObfuscationMode = if (isPasswordVisible)
-                TextObfuscationMode.Visible
-            else
-                TextObfuscationMode.Hidden,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            ),
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
+            textObfuscationMode =
+                if (isPasswordVisible) {
+                    TextObfuscationMode.Visible
                 } else {
-                    MaterialTheme.colorScheme.extended.buttonPlaceholderTextColor
-                }
-            ),
+                    TextObfuscationMode.Hidden
+                },
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                ),
+            textStyle =
+                MaterialTheme.typography.bodyMedium.copy(
+                    color =
+                        if (enabled) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.extended.buttonPlaceholderTextColor
+                        },
+                ),
             interactionSource = interactionSource,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
             decorator = { innerBox ->
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f),
-                        contentAlignment = Alignment.CenterStart
+                        modifier =
+                            Modifier
+                                .weight(1f),
+                        contentAlignment = Alignment.CenterStart,
                     ) {
                         if (state.text.isEmpty() && placeholder != null) {
                             Text(
                                 text = placeholder,
                                 color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
                             )
                         }
                         innerBox()
                     }
 
                     Icon(
-                        imageVector = if (isPasswordVisible) {
-                            vectorResource(Res.drawable.ic_eye_off)
-                        } else {
-                            vectorResource(Res.drawable.ic_eye)
-                        },
-                        contentDescription = if (isPasswordVisible) {
-                            stringResource(Res.string.hide_password)
-                        } else {
-                            stringResource(Res.string.show_password)
-                        },
+                        imageVector =
+                            if (isPasswordVisible) {
+                                vectorResource(Res.drawable.ic_eye_off)
+                            } else {
+                                vectorResource(Res.drawable.ic_eye)
+                            },
+                        contentDescription =
+                            if (isPasswordVisible) {
+                                stringResource(Res.string.hide_password)
+                            } else {
+                                stringResource(Res.string.show_password)
+                            },
                         tint = MaterialTheme.colorScheme.extended.textPlaceholder,
-                        modifier = Modifier
-                            .size(16.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = ripple(
-                                    bounded = false,
-                                    radius = 24.dp
+                        modifier =
+                            Modifier
+                                .size(16.dp)
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication =
+                                        ripple(
+                                            bounded = false,
+                                            radius = 24.dp,
+                                        ),
+                                    onClick = onToggleVisibility,
                                 ),
-                                onClick = onToggleVisibility
-                            )
                     )
                 }
-            }
+            },
         )
     }
 }
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun OrisPasswordTextFieldFilledPreview() {
     OrisTheme {
@@ -135,8 +146,9 @@ fun OrisPasswordTextFieldFilledPreview() {
             state = rememberTextFieldState("password123"),
             isPasswordVisible = false,
             onToggleVisibility = {},
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "Password",
             title = "Password",
             supportingText = "Use 9+ characters, at least one digit and one uppercase letter",
@@ -146,7 +158,7 @@ fun OrisPasswordTextFieldFilledPreview() {
 
 @Composable
 @Preview(
-    showBackground = true
+    showBackground = true,
 )
 fun OrisPasswordTextFieldErrorPreview() {
     OrisTheme {
@@ -154,8 +166,9 @@ fun OrisPasswordTextFieldErrorPreview() {
             state = rememberTextFieldState("password123"),
             isPasswordVisible = true,
             onToggleVisibility = {},
-            modifier = Modifier
-                .width(300.dp),
+            modifier =
+                Modifier
+                    .width(300.dp),
             placeholder = "Password",
             title = "Password",
             supportingText = "Doesn't contain an uppercase character",

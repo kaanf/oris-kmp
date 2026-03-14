@@ -20,12 +20,13 @@ fun OrisSimpleResultLayout(
     title: String,
     description: String,
     icon: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .padding(horizontal = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         icon()
 
@@ -34,17 +35,16 @@ fun OrisSimpleResultLayout(
         Text(
             text = title,
             color = MaterialTheme.colorScheme.extended.primaryTextColor,
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.displaySmall,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         Text(
             text = description,
             color = MaterialTheme.colorScheme.extended.secondaryTextColor,
             style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -59,7 +59,7 @@ fun OrisSimpleSuccessLayoutPreview() {
             icon = {
                 OrisGlowIcon(
                     icon = Icons.Default.Email,
-                    themeColor = Primary400
+                    themeColor = Primary400,
                 )
             },
         )

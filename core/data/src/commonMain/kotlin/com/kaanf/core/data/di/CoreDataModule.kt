@@ -12,11 +12,12 @@ import org.koin.dsl.module
 
 expect val platformCoreDataModule: Module
 
-val coreDataModule = module {
-    includes(platformCoreDataModule)
-    single<OrisLogger> { KermitLogger }
-    single {
-        HttpClientFactory(get()).create(get())
+val coreDataModule =
+    module {
+        includes(platformCoreDataModule)
+        single<OrisLogger> { KermitLogger }
+        single {
+            HttpClientFactory(get()).create(get())
+        }
+        singleOf(::KtorAuthService) bind AuthService::class
     }
-    singleOf(::KtorAuthService) bind AuthService::class
-}

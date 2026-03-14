@@ -34,13 +34,14 @@ fun OrisAdaptiveResultLayout(
     val configuration = currentDeviceConfiguration()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) { innerPadding ->
         if (configuration == DeviceConfiguration.MOBILE_PORTRAIT) {
             Column(
-                modifier = Modifier
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.weight(.6f))
 
@@ -54,13 +55,14 @@ fun OrisAdaptiveResultLayout(
             }
         } else {
             Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(top = 32.dp),
+                modifier =
+                    Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(top = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(32.dp)
+                verticalArrangement = Arrangement.spacedBy(32.dp),
             ) {
                 content()
             }
@@ -80,7 +82,7 @@ fun OrisAdaptiveResultLayoutPreview() {
                     icon = {
                         OrisGlowIcon(
                             icon = Icons.Default.Email,
-                            themeColor = Primary400
+                            themeColor = Primary400,
                         )
                     },
                 )
@@ -89,9 +91,10 @@ fun OrisAdaptiveResultLayoutPreview() {
                 OrisButton(
                     text = "Devam",
                     onClick = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -99,11 +102,12 @@ fun OrisAdaptiveResultLayoutPreview() {
                     text = "Devam",
                     onClick = {},
                     style = OrisButtonStyle.SECONDARY,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
                 )
-            }
+            },
         )
     }
 }

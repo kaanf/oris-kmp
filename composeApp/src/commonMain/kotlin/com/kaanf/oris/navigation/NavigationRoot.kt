@@ -12,13 +12,12 @@ fun NavigationRoot() {
 
     NavHost(
         navController = navController,
-        startDestination = AuthGraphRoutes.Graph
+        startDestination = AuthGraphRoutes.Graph,
     ) {
         authGraph(
             navController = navController,
             onLoginSuccess = {
-
-            }
+            },
         )
     }
 }

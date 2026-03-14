@@ -10,6 +10,5 @@ import com.kaanf.core.designsystem.theme.OrisTheme
 @PreviewScreenSizes
 fun OrisAdaptiveResultPreviews() {
     OrisTheme {
-
     }
 }

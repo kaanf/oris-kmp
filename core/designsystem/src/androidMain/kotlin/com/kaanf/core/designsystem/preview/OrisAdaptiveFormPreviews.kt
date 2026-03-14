@@ -21,9 +21,9 @@ fun OrisAdaptiveFormLayoutPreview() {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",
-                    title = "Email"
+                    title = "Email",
                 )
-            }
+            },
         )
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,48 +37,55 @@ fun OrisButton(
     style: OrisButtonStyle = OrisButtonStyle.PRIMARY,
     enabled: Boolean = true,
     isLoading: Boolean = false,
-    leadingIcon: @Composable (() -> Unit)? = null
+    leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    val targetContainerColor = when(style) {
-        OrisButtonStyle.PRIMARY -> if (enabled) {
-            MaterialTheme.colorScheme.primary
-        } else {
-            MaterialTheme.colorScheme.extended.disabledFill
+    val targetContainerColor =
+        when (style) {
+            OrisButtonStyle.PRIMARY ->
+                if (enabled) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.extended.disabledFill
+                }
+            OrisButtonStyle.SECONDARY ->
+                if (enabled) {
+                    Primary100
+                } else {
+                    MaterialTheme.colorScheme.extended.disabledFill
+                }
         }
-        OrisButtonStyle.SECONDARY -> if (enabled) {
-            Primary100
-        } else {
-            MaterialTheme.colorScheme.extended.disabledFill
+    val targetContentColor =
+        when (style) {
+            OrisButtonStyle.PRIMARY ->
+                if (enabled) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.extended.textDisabled
+                }
+            OrisButtonStyle.SECONDARY ->
+                if (enabled) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.extended.textDisabled
+                }
         }
-    }
-    val targetContentColor = when(style) {
-        OrisButtonStyle.PRIMARY -> if (enabled) {
-            MaterialTheme.colorScheme.onPrimary
-        } else {
-            MaterialTheme.colorScheme.extended.textDisabled
-        }
-        OrisButtonStyle.SECONDARY -> if (enabled) {
-            MaterialTheme.colorScheme.primary
-        } else {
-            MaterialTheme.colorScheme.extended.textDisabled
-        }
-    }
     val animatedContainerColor by animateColorAsState(
         targetValue = targetContainerColor,
         animationSpec = tween(durationMillis = 200),
-        label = "oris_button_container_color"
+        label = "oris_button_container_color",
     )
     val animatedContentColor by animateColorAsState(
         targetValue = targetContentColor,
         animationSpec = tween(durationMillis = 200),
-        label = "oris_button_content_color"
+        label = "oris_button_content_color",
     )
-    val colors = ButtonDefaults.buttonColors(
-        containerColor = animatedContainerColor,
-        contentColor = animatedContentColor,
-        disabledContainerColor = animatedContainerColor,
-        disabledContentColor = animatedContentColor
-    )
+    val colors =
+        ButtonDefaults.buttonColors(
+            containerColor = animatedContainerColor,
+            contentColor = animatedContentColor,
+            disabledContainerColor = animatedContainerColor,
+            disabledContentColor = animatedContentColor,
+        )
 
     /*
     val defaultBorderStroke = BorderStroke(
@@ -100,35 +106,38 @@ fun OrisButton(
         enabled = enabled,
         shape = SquircleCornerShape(12.dp),
         colors = colors,
-        border = null
+        border = null,
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         ) {
             CircularProgressIndicator(
-                modifier = Modifier
-                    .size(15.dp)
-                    .alpha(
-                        alpha = if(isLoading) 1f else 0f
-                    ),
+                modifier =
+                    Modifier
+                        .size(15.dp)
+                        .alpha(
+                            alpha = if (isLoading) 1f else 0f,
+                        ),
                 strokeWidth = 1.5.dp,
-                color = animatedContentColor
+                color = animatedContentColor,
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterHorizontally
-                ),
+                horizontalArrangement =
+                    Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.CenterHorizontally,
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.alpha(
-                    if(isLoading) 0f else 1f
-                )
+                modifier =
+                    Modifier.alpha(
+                        if (isLoading) 0f else 1f,
+                    ),
             ) {
                 leadingIcon?.invoke()
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -142,7 +151,7 @@ fun OrisPrimaryButtonPreview() {
         OrisButton(
             text = "Hello world!",
             onClick = {},
-            style = OrisButtonStyle.PRIMARY
+            style = OrisButtonStyle.PRIMARY,
         )
     }
 }
@@ -154,7 +163,7 @@ fun OrisSecondaryButtonPreview() {
         OrisButton(
             text = "Hello world!",
             onClick = {},
-            style = OrisButtonStyle.SECONDARY
+            style = OrisButtonStyle.SECONDARY,
         )
     }
 }

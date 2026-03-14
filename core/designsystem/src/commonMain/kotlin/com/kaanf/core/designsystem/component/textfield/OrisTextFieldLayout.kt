@@ -13,8 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,62 +28,67 @@ fun OrisTextFieldLayout(
     enabled: Boolean = true,
     onFocusChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    textField: @Composable (Modifier, MutableInteractionSource) -> Unit
+    textField: @Composable (Modifier, MutableInteractionSource) -> Unit,
 ) {
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
+    val interactionSource =
+        remember {
+            MutableInteractionSource()
+        }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     LaunchedEffect(isFocused) {
         onFocusChanged(isFocused)
     }
 
-    val textFieldStyleModifier = Modifier
-        .fillMaxWidth()
-        .background(
-            color = when {
-                isFocused -> MaterialTheme.colorScheme.extended.buttonFocusedBg
-                enabled -> MaterialTheme.colorScheme.extended.buttonDefaultBg
-                else -> MaterialTheme.colorScheme.extended.secondaryFill
-            },
-            shape = RoundedCornerShape(12.dp)
-        )
-        .border(
-            width = 1.dp,
-            color = when {
-                isError -> MaterialTheme.colorScheme.error
-                isFocused -> MaterialTheme.colorScheme.extended.buttonFocusedOutline
-                else -> MaterialTheme.colorScheme.extended.buttonOutline
-            },
-            shape = RoundedCornerShape(12.dp)
-        )
-        .padding(16.dp)
+    val textFieldStyleModifier =
+        Modifier
+            .fillMaxWidth()
+            .background(
+                color =
+                    when {
+                        isFocused -> MaterialTheme.colorScheme.extended.buttonFocusedBg
+                        enabled -> MaterialTheme.colorScheme.extended.buttonDefaultBg
+                        else -> MaterialTheme.colorScheme.extended.secondaryFill
+                    },
+                shape = RoundedCornerShape(12.dp),
+            )
+            .border(
+                width = 1.dp,
+                color =
+                    when {
+                        isError -> MaterialTheme.colorScheme.error
+                        isFocused -> MaterialTheme.colorScheme.extended.buttonFocusedOutline
+                        else -> MaterialTheme.colorScheme.extended.buttonOutline
+                    },
+                shape = RoundedCornerShape(12.dp),
+            )
+            .padding(16.dp)
 
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
-        if(title != null) {
+        if (title != null) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.extended.textSecondary
+                color = MaterialTheme.colorScheme.extended.textSecondary,
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
 
         textField(textFieldStyleModifier, interactionSource)
 
-        if(supportingText != null) {
+        if (supportingText != null) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = supportingText,
-                color = if(isError) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.extended.textTertiary
-                },
-                style = MaterialTheme.typography.bodySmall
+                color =
+                    if (isError) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.extended.textTertiary
+                    },
+                style = MaterialTheme.typography.bodySmall,
             )
         }
     }

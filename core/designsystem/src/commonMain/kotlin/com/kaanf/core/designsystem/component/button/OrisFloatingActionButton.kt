@@ -15,7 +15,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun OrisFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     FloatingActionButton(
         onClick = onClick,
@@ -23,7 +23,7 @@ fun OrisFloatingActionButton(
         shape = CircleShape,
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        content = content
+        content = content,
     )
 }
 
@@ -34,7 +34,7 @@ fun OrisFloatingActionButtonPreview() {
         OrisFloatingActionButton(onClick = {}) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }

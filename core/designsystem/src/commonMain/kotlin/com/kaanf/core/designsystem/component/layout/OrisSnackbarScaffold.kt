@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 fun OrisSnackbarScaffold(
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
@@ -23,9 +23,10 @@ fun OrisSnackbarScaffold(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier
-                    .padding(bottom = 24.dp)
+                modifier =
+                    Modifier
+                        .padding(bottom = 24.dp),
             )
-        }
+        },
     ) { innerPadding -> content(innerPadding) }
 }

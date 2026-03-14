@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kaanf.core.designsystem.theme.OrisTheme
 import com.kaanf.core.designsystem.theme.extended
@@ -27,13 +26,15 @@ fun OrisIconButton(
         onClick = onClick,
         modifier = modifier.size(40.dp),
         shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outline
-        ),
-        colors = IconButtonDefaults.outlinedIconButtonColors(
-            contentColor = MaterialTheme.colorScheme.extended.iconPrimary
-        )
+        border =
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+            ),
+        colors =
+            IconButtonDefaults.outlinedIconButtonColors(
+                contentColor = MaterialTheme.colorScheme.extended.iconPrimary,
+            ),
     ) {
         content()
     }
@@ -46,7 +47,7 @@ fun OrisButtonPreview() {
         OrisIconButton(onClick = {}) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }

@@ -22,16 +22,17 @@ fun OrisSurface(
     modifier: Modifier = Modifier,
     header: @Composable ColumnScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
-    bottomBar: @Composable () -> Unit = {}
+    bottomBar: @Composable () -> Unit = {},
 ) {
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
         ) {
             header()
 
@@ -52,19 +53,19 @@ fun OrisSurfacePreview() {
             header = {
                 Text(
                     text = "What’s your name?",
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = "Write your name. You can change it back in settings.",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             },
             content = {
                 OrisTextField(
                     state = rememberTextFieldState(),
                     placeholder = "test@test.com",
-                    title = "Email"
+                    title = "Email",
                 )
             },
         )

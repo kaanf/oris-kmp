@@ -3,7 +3,7 @@ package com.kaanf.core.data.logging
 import co.touchlab.kermit.Logger
 import com.kaanf.core.domain.logging.OrisLogger
 
-object KermitLogger: OrisLogger {
+object KermitLogger : OrisLogger {
     override fun debug(message: String) {
         Logger.d(message)
     }
@@ -16,7 +16,10 @@ object KermitLogger: OrisLogger {
         Logger.w(message)
     }
 
-    override fun error(message: String, throwable: Throwable?) {
+    override fun error(
+        message: String,
+        throwable: Throwable?,
+    ) {
         Logger.e(message, throwable)
     }
 }

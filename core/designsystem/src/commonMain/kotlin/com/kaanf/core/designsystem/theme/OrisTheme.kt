@@ -8,7 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 @Composable
 fun OrisTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme
     val extendedScheme = if (isDarkTheme) DarkExtendedColors else LightExtendedColors
@@ -17,7 +17,7 @@ fun OrisTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
-            content = content
+            content = content,
         )
     }
 }
