@@ -9,8 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.kaanf.core.designsystem.component.button.OrisButton
-import com.kaanf.core.designsystem.component.button.OrisButtonStyle
 import com.kaanf.core.designsystem.component.icon.OrisGlowIcon
 import com.kaanf.core.designsystem.theme.OrisTheme
 import com.kaanf.core.designsystem.theme.Primary400
@@ -18,7 +16,7 @@ import com.kaanf.core.designsystem.theme.extended
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun OrisSimpleSuccessLayout(
+fun OrisSimpleResultLayout(
     title: String,
     description: String,
     icon: @Composable () -> Unit,
@@ -55,7 +53,7 @@ fun OrisSimpleSuccessLayout(
 @Preview
 fun OrisSimpleSuccessLayoutPreview() {
     OrisTheme(isDarkTheme = true) {
-        OrisSimpleSuccessLayout(
+        OrisSimpleResultLayout(
             title = "Account created!",
             description = "We've sent an email verification link to your registered email address. Please check your inbox.",
             icon = {

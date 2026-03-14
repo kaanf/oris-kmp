@@ -75,7 +75,7 @@ fun OrisTextFieldLayout(
         textField(textFieldStyleModifier, interactionSource)
 
         if(supportingText != null) {
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = supportingText,
                 color = if(isError) {

@@ -53,7 +53,7 @@ fun RegisterAdaptiveScaffold(
                         content = content
                     )
 
-                        bottomBar()
+                    bottomBar()
                 }
             }
         }

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.kaanf.core.designsystem.theme.OrisTheme
+import com.kaanf.core.designsystem.theme.Primary100
 import com.kaanf.core.designsystem.theme.SquircleCornerShape
 import com.kaanf.core.designsystem.theme.extended
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -46,7 +47,7 @@ fun OrisButton(
             MaterialTheme.colorScheme.extended.disabledFill
         }
         OrisButtonStyle.SECONDARY -> if (enabled) {
-            MaterialTheme.colorScheme.onPrimary
+            Primary100
         } else {
             MaterialTheme.colorScheme.extended.disabledFill
         }
