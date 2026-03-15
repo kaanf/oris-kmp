@@ -16,18 +16,19 @@ import oris.feature.auth.presentation.generated.resources.password_screen_placeh
 @Composable
 fun RegisterPasswordContent(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit
+    onAction: (RegisterAction) -> Unit,
 ) {
     OrisPasswordTextField(
         state = state.passwordTextState,
         placeholder = stringResource(Res.string.password_screen_placeholder),
         title = stringResource(Res.string.password_screen_label),
-        supportingText = state.passwordError?.asString()
-            ?: stringResource(Res.string.password_screen_hint),
+        supportingText =
+            state.passwordError?.asString()
+                ?: stringResource(Res.string.password_screen_hint),
         isError = state.passwordError != null,
         onFocusChanged = { onAction(RegisterAction.OnInputTextFocusGain) },
         onToggleVisibility = { onAction(RegisterAction.OnTogglePasswordVisibilityClick) },
-        isPasswordVisible = state.isPasswordVisible
+        isPasswordVisible = state.isPasswordVisible,
     )
 }
 
@@ -37,7 +38,7 @@ private fun RegisterPasswordContentPreview() {
     OrisTheme {
         RegisterPasswordContent(
             state = RegisterState(step = RegisterStep.Password),
-            onAction = {}
+            onAction = {},
         )
     }
 }

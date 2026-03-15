@@ -6,6 +6,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kaanf.auth.presentation.navigation.AuthGraphRoutes
 import com.kaanf.auth.presentation.navigation.authGraph
 
+@Suppress("FunctionNaming")
 @Composable
 fun NavigationRoot() {
     val navController = rememberNavController()

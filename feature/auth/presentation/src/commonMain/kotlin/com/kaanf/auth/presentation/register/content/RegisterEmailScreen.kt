@@ -17,17 +17,18 @@ import oris.feature.auth.presentation.generated.resources.mail_screen_placeholde
 @Composable
 fun RegisterEmailContent(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit
+    onAction: (RegisterAction) -> Unit,
 ) {
     OrisTextField(
         state = state.emailTextState,
         title = stringResource(Res.string.mail_screen_label),
         placeholder = stringResource(Res.string.mail_screen_placeholder),
-        supportingText = state.emailError?.asString()
-            ?: stringResource(Res.string.mail_screen_hint),
+        supportingText =
+            state.emailError?.asString()
+                ?: stringResource(Res.string.mail_screen_hint),
         keyboardType = KeyboardType.Email,
         isError = state.emailError != null,
-        onFocusChanged = { onAction(RegisterAction.OnInputTextFocusGain) }
+        onFocusChanged = { onAction(RegisterAction.OnInputTextFocusGain) },
     )
 }
 
@@ -37,7 +38,7 @@ private fun RegisterEmailContentPreview() {
     OrisTheme {
         RegisterEmailContent(
             state = RegisterState(step = RegisterStep.Email),
-            onAction = {}
+            onAction = {},
         )
     }
 }

@@ -22,19 +22,19 @@ import oris.feature.auth.presentation.generated.resources.error_invalid_username
 import oris.feature.auth.presentation.generated.resources.error_username_exists
 
 class RegisterViewModel(
-    private val authService: AuthService
+    private val authService: AuthService,
 ) : ViewModel() {
-
     private val eventChannel = Channel<RegisterEvent>()
     val events = eventChannel.receiveAsFlow()
 
     private val _state = MutableStateFlow(RegisterState())
-    val state = _state
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = RegisterState()
-        )
+    val state =
+        _state
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = RegisterState(),
+            )
 
     fun onAction(action: RegisterAction) {
         when (action) {
@@ -55,188 +55,195 @@ class RegisterViewModel(
             }
 
             else -> {
-                /* Don't analyze this field. */
+                // Don't analyze this field.
             }
         }
     }
 
     private fun submitRegistration() {
-        if (_state.value.step != RegisterStep.Password)
+        if (_state.value.step != RegisterStep.Password) {
             return
+        }
 
-        if (_state.value.isRegistering)
+        if (_state.value.isRegistering) {
             return
+        }
 
-        if (!_state.value.isPasswordValid)
+        if (!_state.value.isPasswordValid) {
             return
+        }
 
         register()
     }
 
-    private fun checkUsername() = viewModelScope.launch {
-        val currentState = _state.value
+    private fun checkUsername() =
+        viewModelScope.launch {
+            val currentState = _state.value
 
-        if (!currentState.isUsernameValid) {
-            eventChannel.send(
-                RegisterEvent.UsernameValidationFailure(
-                    UIText.Resource(Res.string.error_invalid_username)
+            if (!currentState.isUsernameValid) {
+                eventChannel.send(
+                    RegisterEvent.UsernameValidationFailure(
+                        UIText.Resource(Res.string.error_invalid_username),
+                    ),
                 )
-            )
 
-            return@launch
-        }
+                return@launch
+            }
 
-        _state.update {
-            it.copy(
-                isRegistering = true,
-                registrationError = null
-            )
-        }
+            _state.update {
+                it.copy(
+                    isRegistering = true,
+                    registrationError = null,
+                )
+            }
 
-        val username = currentState.usernameTextState.text.toString()
+            val username = currentState.usernameTextState.text.toString()
 
-        authService
-            .isUsernameExists(username)
-            .onSuccess { isExists ->
-                if (!isExists) {
-                    _state.update {
-                        it.copy(
-                            isRegistering = false,
-                            step = RegisterStep.Email
+            authService
+                .isUsernameExists(username)
+                .onSuccess { isExists ->
+                    if (!isExists) {
+                        _state.update {
+                            it.copy(
+                                isRegistering = false,
+                                step = RegisterStep.Email,
+                            )
+                        }
+
+                        eventChannel.send(RegisterEvent.UsernameValidationSuccess)
+                    } else {
+                        _state.update {
+                            it.copy(
+                                isRegistering = false,
+                            )
+                        }
+
+                        eventChannel.send(
+                            RegisterEvent.UsernameValidationFailure(
+                                UIText.Resource(Res.string.error_username_exists),
+                            ),
                         )
                     }
-
-                    eventChannel.send(RegisterEvent.UsernameValidationSuccess)
-                } else {
+                }
+                .onFailure { error ->
                     _state.update {
                         it.copy(
                             isRegistering = false,
+                            registrationError = error.toUiText(),
                         )
                     }
 
                     eventChannel.send(
                         RegisterEvent.UsernameValidationFailure(
-                            UIText.Resource(Res.string.error_username_exists)
-                        )
+                            error.toUiText(),
+                        ),
                     )
                 }
+        }
 
-            }
-            .onFailure { error ->
-                _state.update {
-                    it.copy(
-                        isRegistering = false,
-                        registrationError = error.toUiText()
-                    )
-                }
-
-                eventChannel.send(
-                    RegisterEvent.UsernameValidationFailure(
-                        error.toUiText()
-                    )
+    private fun checkEmail() =
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isRegistering = true,
+                    registrationError = null,
                 )
             }
-    }
 
-    private fun checkEmail() = viewModelScope.launch {
-        _state.update {
-            it.copy(
-                isRegistering = true,
-                registrationError = null
-            )
-        }
+            val currentState = _state.value
 
-        val currentState = _state.value
+            val email = currentState.emailTextState.text.toString()
 
-        val email = currentState.emailTextState.text.toString()
+            authService
+                .isEmailExists(email)
+                .onSuccess { isExists ->
+                    if (!isExists) {
+                        _state.update {
+                            it.copy(
+                                isRegistering = false,
+                                step = RegisterStep.Password,
+                            )
+                        }
 
-        authService
-            .isEmailExists(email)
-            .onSuccess { isExists ->
-                if (!isExists) {
+                        eventChannel.send(RegisterEvent.MailValidationSuccess)
+                    } else {
+                        _state.update {
+                            it.copy(
+                                isRegistering = false,
+                            )
+                        }
+
+                        eventChannel.send(
+                            RegisterEvent.MailValidationFailure(
+                                UIText.Resource(Res.string.error_email_exists),
+                            ),
+                        )
+                    }
+                }
+                .onFailure { error ->
                     _state.update {
                         it.copy(
                             isRegistering = false,
-                            step = RegisterStep.Password
+                            registrationError = error.toUiText(),
                         )
                     }
+                }
+        }
 
-                    eventChannel.send(RegisterEvent.MailValidationSuccess)
-                } else {
+    private fun register() =
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isRegistering = true,
+                    registrationError = null,
+                )
+            }
+
+            val currentState = _state.value
+
+            val email = currentState.emailTextState.text.toString()
+            val username = currentState.usernameTextState.text.toString()
+            val password = currentState.passwordTextState.text.toString()
+
+            authService
+                .register(
+                    email = email,
+                    username = username,
+                    password = password,
+                )
+                .onSuccess {
                     _state.update {
                         it.copy(
                             isRegistering = false,
                         )
                     }
 
-                    eventChannel.send(
-                        RegisterEvent.MailValidationFailure(
-                            UIText.Resource(Res.string.error_email_exists)
+                    eventChannel.send(RegisterEvent.Success(email))
+                }
+                .onFailure { error ->
+                    val registrationError =
+                        when (error) {
+                            DataError.Remote.CONFLICT -> UIText.Resource(Res.string.error_account_exists)
+                            else -> error.toUiText()
+                        }
+
+                    _state.update {
+                        it.copy(
+                            isRegistering = false,
+                            registrationError = registrationError,
                         )
-                    )
+                    }
                 }
-            }
-            .onFailure { error ->
-                _state.update {
-                    it.copy(
-                        isRegistering = false,
-                        registrationError = error.toUiText()
-                    )
-                }
-            }
-    }
-
-    private fun register() = viewModelScope.launch {
-        _state.update {
-            it.copy(
-                isRegistering = true,
-                registrationError = null
-            )
         }
-
-        val currentState = _state.value
-
-        val email = currentState.emailTextState.text.toString()
-        val username = currentState.usernameTextState.text.toString()
-        val password = currentState.passwordTextState.text.toString()
-
-        authService
-            .register(
-                email = email,
-                username = username,
-                password = password
-            )
-            .onSuccess {
-                _state.update {
-                    it.copy(
-                        isRegistering = false,
-                    )
-                }
-
-                eventChannel.send(RegisterEvent.Success(email))
-            }
-            .onFailure { error ->
-                val registrationError = when (error) {
-                    DataError.Remote.CONFLICT -> UIText.Resource(Res.string.error_account_exists)
-                    else -> error.toUiText()
-                }
-
-                _state.update {
-                    it.copy(
-                        isRegistering = false,
-                        registrationError = registrationError
-                    )
-                }
-            }
-    }
 
     private fun goBack() {
         val s = _state.value
-        val prev = when (s.step) {
-            RegisterStep.Username -> RegisterStep.Username
-            RegisterStep.Email -> RegisterStep.Username
-            RegisterStep.Password -> RegisterStep.Email
-        }
+        val prev =
+            when (s.step) {
+                RegisterStep.Username -> RegisterStep.Username
+                RegisterStep.Email -> RegisterStep.Username
+                RegisterStep.Password -> RegisterStep.Email
+            }
         _state.update { it.copy(step = prev) }
     }
 }

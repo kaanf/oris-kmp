@@ -6,8 +6,9 @@ import com.kaanf.auth.presentation.register_verification.RegisterVerificationVie
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val authPresentationModule = module {
-    viewModelOf(::RegisterViewModel)
-    viewModelOf(::RegisterVerificationViewModel)
-    viewModelOf(::EmailVerificationViewModel)
-}
+val authPresentationModule =
+    module {
+        viewModelOf(::RegisterViewModel)
+        viewModelOf(::RegisterVerificationViewModel)
+        viewModelOf(::EmailVerificationViewModel)
+    }

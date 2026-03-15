@@ -32,29 +32,29 @@ import oris.feature.auth.presentation.generated.resources.verification_successfu
 import oris.feature.auth.presentation.generated.resources.verification_successful_screen_title
 
 @Composable
-fun RegisterVerificationRoot(
-    viewModel: RegisterVerificationViewModel = koinViewModel()
-) {
+fun RegisterVerificationRoot(viewModel: RegisterVerificationViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            RegisterVerificationEvent.ResendVerificationEmailSuccess -> snackbarHostState.showSnackbar(
-                message = "Verification email resent"
-            )
+            RegisterVerificationEvent.ResendVerificationEmailSuccess ->
+                snackbarHostState.showSnackbar(
+                    message = "Verification email resent",
+                )
 
-            is RegisterVerificationEvent.ResendVerificationEmailFailure -> snackbarHostState.showSnackbar(
-                message = event.error
-            )
+            is RegisterVerificationEvent.ResendVerificationEmailFailure ->
+                snackbarHostState.showSnackbar(
+                    message = event.error,
+                )
         }
     }
 
     RegisterVerificationScreen(
         state = state,
         onAction = viewModel::onAction,
-        snackbarHostState = snackbarHostState
+        snackbarHostState = snackbarHostState,
     )
 }
 
@@ -62,21 +62,22 @@ fun RegisterVerificationRoot(
 fun RegisterVerificationScreen(
     state: RegisterVerificationState,
     onAction: (RegisterVerificationAction) -> Unit,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
 ) {
     OrisSnackbarScaffold(snackbarHostState) {
         OrisAdaptiveResultLayout(
             content = {
                 OrisSimpleResultLayout(
                     title = stringResource(Res.string.verification_successful_screen_title),
-                    description = stringResource(
-                        Res.string.verification_successful_screen_description,
-                        state.registeredEmail
-                    ),
+                    description =
+                        stringResource(
+                            Res.string.verification_successful_screen_description,
+                            state.registeredEmail,
+                        ),
                     icon = {
                         OrisGlowIcon(
                             icon = Icons.Default.Email,
-                            themeColor = Primary400
+                            themeColor = Primary400,
                         )
                     },
                 )
@@ -87,9 +88,10 @@ fun RegisterVerificationScreen(
                     onClick = {
                         onAction(RegisterVerificationAction.OnLoginClick)
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -100,13 +102,14 @@ fun RegisterVerificationScreen(
                         onAction(RegisterVerificationAction.OnResendVerificationEmailClick)
                     },
                     style = OrisButtonStyle.SECONDARY,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
                     enabled = !state.isResendingVerificationEmail,
-                    isLoading = state.isResendingVerificationEmail
+                    isLoading = state.isResendingVerificationEmail,
                 )
-            }
+            },
         )
     }
 }
@@ -118,7 +121,7 @@ private fun Preview() {
         RegisterVerificationScreen(
             state = RegisterVerificationState(),
             onAction = {},
-            snackbarHostState = remember { SnackbarHostState() }
+            snackbarHostState = remember { SnackbarHostState() },
         )
     }
 }

@@ -18,33 +18,36 @@ import kotlinx.coroutines.launch
 
 class RegisterVerificationViewModel(
     private val authService: AuthService,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private var hasLoadedInitialData = false
 
     private val eventChannel = Channel<RegisterVerificationEvent>()
     val events = eventChannel.receiveAsFlow()
 
-    private val email = savedStateHandle.get<String>("email")
-        ?: throw IllegalStateException("No email passed to register success screen")
+    private val email =
+        savedStateHandle.get<String>("email")
+            ?: throw IllegalStateException("No email passed to register success screen")
 
-    private val _state = MutableStateFlow(
-        RegisterVerificationState(
-            registeredEmail = email
+    private val _state =
+        MutableStateFlow(
+            RegisterVerificationState(
+                registeredEmail = email,
+            ),
         )
-    )
-    val state = _state
-        .onStart {
-            if (!hasLoadedInitialData) {
-                /** Load initial data here **/
-                hasLoadedInitialData = true
+    val state =
+        _state
+            .onStart {
+                if (!hasLoadedInitialData) {
+                    /** Load initial data here **/
+                    hasLoadedInitialData = true
+                }
             }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = RegisterVerificationState()
-        )
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = RegisterVerificationState(),
+            )
 
     fun onAction(action: RegisterVerificationAction) {
         when (action) {
@@ -71,7 +74,7 @@ class RegisterVerificationViewModel(
                     }
 
                     eventChannel.send(
-                        RegisterVerificationEvent.ResendVerificationEmailSuccess
+                        RegisterVerificationEvent.ResendVerificationEmailSuccess,
                     )
                 }
                 .onFailure { error ->
@@ -82,11 +85,10 @@ class RegisterVerificationViewModel(
 
                     eventChannel.send(
                         RegisterVerificationEvent.ResendVerificationEmailFailure(
-                            error.toUiText().toString()
-                        )
+                            error.toUiText().toString(),
+                        ),
                     )
                 }
         }
     }
-
 }

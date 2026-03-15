@@ -6,7 +6,9 @@ import com.kaanf.core.domain.util.Result
 
 interface AuthService {
     suspend fun register(
-        email: String, username: String, password: String
+        email: String,
+        username: String,
+        password: String,
     ): EmptyResult<DataError.Remote>
 
     suspend fun resendVerificationMail(email: String): EmptyResult<DataError.Remote>

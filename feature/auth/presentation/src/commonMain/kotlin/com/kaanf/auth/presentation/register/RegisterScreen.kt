@@ -44,22 +44,20 @@ fun RegisterRoot(
             }
 
             is RegisterEvent.UsernameValidationSuccess -> {
-
             }
 
             is RegisterEvent.MailValidationSuccess -> {
-
             }
 
-            is RegisterEvent.UsernameValidationFailure, -> {
+            is RegisterEvent.UsernameValidationFailure -> {
                 snackbarHostState.showSnackbar(
-                    event.message.asStringAsync()
+                    event.message.asStringAsync(),
                 )
             }
 
             is RegisterEvent.MailValidationFailure -> {
                 snackbarHostState.showSnackbar(
-                    event.message.asStringAsync()
+                    event.message.asStringAsync(),
                 )
             }
         }
@@ -68,9 +66,10 @@ fun RegisterRoot(
     OrisSnackbarScaffold(snackbarHostState) { innerPadding ->
         RegisterScreen(
             state = state,
-            modifier = Modifier
-                .padding(innerPadding)
-                .consumeWindowInsets(innerPadding),
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .consumeWindowInsets(innerPadding),
             onAction = viewModel::onAction,
         )
     }
@@ -80,36 +79,42 @@ fun RegisterRoot(
 fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     RegisterAdaptiveScaffold(
         modifier = modifier,
-        title = when (state.step) {
-            RegisterStep.Username -> stringResource(Res.string.username_screen_title)
-            RegisterStep.Email -> stringResource(Res.string.mail_screen_title)
-            RegisterStep.Password -> stringResource(Res.string.password_screen_title)
-        },
-        description = when (state.step) {
-            RegisterStep.Username -> stringResource(Res.string.username_screen_description)
-            RegisterStep.Email -> stringResource(Res.string.mail_screen_description)
-            RegisterStep.Password -> stringResource(Res.string.password_screen_description)
-        },
-        onBack = if (state.step == RegisterStep.Username) null else {
-            { onAction(RegisterAction.OnBackClick) }
-        },
+        title =
+            when (state.step) {
+                RegisterStep.Username -> stringResource(Res.string.username_screen_title)
+                RegisterStep.Email -> stringResource(Res.string.mail_screen_title)
+                RegisterStep.Password -> stringResource(Res.string.password_screen_title)
+            },
+        description =
+            when (state.step) {
+                RegisterStep.Username -> stringResource(Res.string.username_screen_description)
+                RegisterStep.Email -> stringResource(Res.string.mail_screen_description)
+                RegisterStep.Password -> stringResource(Res.string.password_screen_description)
+            },
+        onBack =
+            if (state.step == RegisterStep.Username) {
+                null
+            } else {
+                { onAction(RegisterAction.OnBackClick) }
+            },
         content = {
             RegisterStepContent(
                 state = state,
-                onAction = onAction
+                onAction = onAction,
             )
         },
         bottomBar = {
             OrisButton(
-                text = if (state.step == RegisterStep.Password) {
-                    stringResource(Res.string.register)
-                } else {
-                    stringResource(Res.string.next)
-                },
+                text =
+                    if (state.step == RegisterStep.Password) {
+                        stringResource(Res.string.register)
+                    } else {
+                        stringResource(Res.string.next)
+                    },
                 onClick = {
                     if (state.step == RegisterStep.Password) {
                         onAction(RegisterAction.OnRegisterClick)
@@ -117,37 +122,41 @@ fun RegisterScreen(
                         onAction(RegisterAction.OnNextClick)
                     }
                 },
-                enabled = when (state.step) {
-                    RegisterStep.Username -> state.isUsernameValid
-                    RegisterStep.Email -> state.isEmailValid
-                    RegisterStep.Password -> !state.isRegistering && state.isPasswordValid
-                },
+                enabled =
+                    when (state.step) {
+                        RegisterStep.Username -> state.isUsernameValid
+                        RegisterStep.Email -> state.isEmailValid
+                        RegisterStep.Password -> !state.isRegistering && state.isPasswordValid
+                    },
                 isLoading = state.isRegistering,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
-        }
+        },
     )
 }
 
 @Composable
 fun RegisterStepContent(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit
+    onAction: (RegisterAction) -> Unit,
 ) {
     when (state.step) {
-        RegisterStep.Username -> RegisterUsernameContent(
-            state = state,
-            onAction = onAction
-        )
+        RegisterStep.Username ->
+            RegisterUsernameContent(
+                state = state,
+                onAction = onAction,
+            )
 
-        RegisterStep.Email -> RegisterEmailContent(
-            state = state,
-            onAction = onAction
-        )
+        RegisterStep.Email ->
+            RegisterEmailContent(
+                state = state,
+                onAction = onAction,
+            )
 
-        RegisterStep.Password -> RegisterPasswordContent(
-            state = state,
-            onAction = onAction
-        )
+        RegisterStep.Password ->
+            RegisterPasswordContent(
+                state = state,
+                onAction = onAction,
+            )
     }
 }

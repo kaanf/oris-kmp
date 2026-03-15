@@ -21,7 +21,7 @@ data class RegisterState(
     val isUsernameExists: Boolean = false,
     val registrationError: UIText? = null,
     val isRegistering: Boolean = false,
-    val isPasswordVisible: Boolean = false
+    val isPasswordVisible: Boolean = false,
 ) {
     val isEmailValid: Boolean
         get() = EmailValidator.validate(emailTextState.text.toString())
@@ -30,6 +30,7 @@ data class RegisterState(
         get() = usernameTextState.text.length in 3..20
 
     val isPasswordValid: Boolean
-        get() = PasswordValidator.validate(passwordTextState.text.toString())
-            .isValidPassword
+        get() =
+            PasswordValidator.validate(passwordTextState.text.toString())
+                .isValidPassword
 }

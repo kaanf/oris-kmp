@@ -15,17 +15,18 @@ import oris.feature.auth.presentation.generated.resources.username_screen_placeh
 @Composable
 fun RegisterUsernameContent(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit
+    onAction: (RegisterAction) -> Unit,
 ) {
     OrisTextField(
-        state=state.usernameTextState,
+        state = state.usernameTextState,
         title = stringResource(Res.string.username_screen_label),
         placeholder = stringResource(Res.string.username_screen_placeholder),
-        supportingText = state.usernameError?.asString()
-            ?: stringResource(Res.string.username_screen_hint),
+        supportingText =
+            state.usernameError?.asString()
+                ?: stringResource(Res.string.username_screen_hint),
         isError = state.usernameError != null,
         onFocusChanged = { onAction(RegisterAction.OnInputTextFocusGain) },
-        singleLine = true
+        singleLine = true,
     )
 }
 
@@ -35,7 +36,7 @@ private fun RegisterUsernameContentPreview() {
     OrisTheme {
         RegisterUsernameContent(
             state = RegisterState(),
-            onAction = {}
+            onAction = {},
         )
     }
 }

@@ -1,12 +1,10 @@
 package com.kaanf.auth.presentation.register.layout
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -27,30 +25,31 @@ fun RegisterAdaptiveScaffold(
     onBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
-    bottomBar: @Composable () -> Unit
+    bottomBar: @Composable () -> Unit,
 ) {
     when (currentDeviceConfiguration()) {
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             Surface(
                 color = MaterialTheme.colorScheme.background,
-                modifier = modifier.fillMaxSize()
+                modifier = modifier.fillMaxSize(),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                 ) {
                     AuthHeaderSection(
                         headerText = title,
                         descriptionText = description,
-                        onBack = onBack
+                        onBack = onBack,
                     )
 
                     Spacer(Modifier.height(24.dp))
 
                     Column(
                         modifier = Modifier.weight(1f),
-                        content = content
+                        content = content,
                     )
 
                     bottomBar()
@@ -61,35 +60,38 @@ fun RegisterAdaptiveScaffold(
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
             Surface(
                 color = MaterialTheme.colorScheme.background,
-                modifier = modifier.fillMaxSize()
+                modifier = modifier.fillMaxSize(),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
                 ) {
                     Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
-                        verticalArrangement = Arrangement.Top
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
+                        verticalArrangement = Arrangement.Top,
                     ) {
                         AuthHeaderSection(
                             headerText = title,
                             descriptionText = description,
-                            onBack = onBack
+                            onBack = onBack,
                         )
                     }
 
                     Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
                     ) {
                         Column(
                             modifier = Modifier.weight(1f),
-                            content = content
+                            content = content,
                         )
 
                         bottomBar()

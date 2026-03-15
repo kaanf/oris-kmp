@@ -12,15 +12,15 @@ fun NavGraphBuilder.authGraph(
     onLoginSuccess: () -> Unit,
 ) {
     navigation<AuthGraphRoutes.Graph>(
-        startDestination = AuthGraphRoutes.Register
+        startDestination = AuthGraphRoutes.Register,
     ) {
         composable<AuthGraphRoutes.Register> {
             RegisterRoot(
                 onRegisterSuccess = {
                     navController.navigate(
-                        AuthGraphRoutes.RegisterVerification(it)
+                        AuthGraphRoutes.RegisterVerification(it),
                     )
-                }
+                },
             )
         }
         composable<AuthGraphRoutes.RegisterVerification> {

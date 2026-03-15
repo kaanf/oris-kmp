@@ -7,7 +7,7 @@ object PasswordValidator {
         return PasswordValidationState(
             hasMinLength = password.length >= MIN_PASSWORD_LENGTH,
             hasDigit = password.any { it.isDigit() },
-            hasUppercase = password.any { it.isUpperCase() }
+            hasUppercase = password.any { it.isUpperCase() },
         )
     }
 }
